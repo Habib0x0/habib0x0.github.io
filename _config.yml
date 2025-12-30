@@ -1,0 +1,18 @@
+title: Your Blog
+description: A minimal blog powered by GitHub Pages
+url: "https://habib0x0.github.io"
+baseurl: ""
+
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+author:
+  name: Your Name
+  email: your.email@example.com
+
+show_excerpts: true
