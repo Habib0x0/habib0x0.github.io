@@ -8,26 +8,22 @@
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
-    <header>
-        <div class="profile">
-            <img src="https://media.licdn.com/dms/image/v2/D4E03AQEwRV5n6gMIFg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1729259911429?e=1768435200&v=beta&t=q7-xZVqKcXvY2_4slTew76DHrlX0Ztl72SNxBiPy9V8" alt="Profile Photo" class="profile-photo">
-            <div class="profile-info">
-                <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
-                <p>{{ site.description }}</p>
-                <nav>
-                    <a href="{{ '/' | relative_url }}">posts</a>
-                    <a href="{{ '/about' | relative_url }}">whoami</a>
-                    <a href="{{ '/projects' | relative_url }}">projects</a>
-                    <a href="{{ '/links' | relative_url }}">links</a>
-                </nav>
-            </div>
-        </div>
-    </header>
-    <main>
+    <aside class="sidebar">
+        <img src="https://media.licdn.com/dms/image/v2/D4E03AQEwRV5n6gMIFg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1729259911429?e=1768435200&v=beta&t=q7-xZVqKcXvY2_4slTew76DHrlX0Ztl72SNxBiPy9V8" alt="Profile Photo" class="profile-photo">
+        <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+        <p>{{ site.description }}</p>
+        <nav>
+            <a href="{{ '/' | relative_url }}">posts</a>
+            <a href="{{ '/about' | relative_url }}">whoami</a>
+            <a href="{{ '/projects' | relative_url }}">projects</a>
+            <a href="{{ '/links' | relative_url }}">links</a>
+        </nav>
+    </aside>
+    <main class="content">
         {{ content }}
+        <footer>
+            <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author.name }}.</p>
+        </footer>
     </main>
-    <footer>
-        <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author.name }}.</p>
-    </footer>
 </body>
 </html>
