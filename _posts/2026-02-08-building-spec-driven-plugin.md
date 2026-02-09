@@ -344,6 +344,53 @@ This spawns all four agents and coordinates them through the full cycle for each
 
 This is based on [Anthropic's research on long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents). They found that separating implementation from verification dramatically improves reliability. The agent team pattern takes that a step further by making verification a completely separate agent.
 
+### Running Multiple Teams Simultaneously
+
+**Update (Feb 9, 2026)**: Early versions of the plugin had a limitation where you could only run one `/spec-team` at a time, even across different projects. This was caused by a namespace collision in the agent team state files.
+
+#### The Problem
+
+Agent teams store their state in `~/.claude/teams/{team-name}/config.json` and `~/.claude/tasks/{team-name}/`. The original implementation used a static team name, causing collisions:
+
+```bash
+# Project A
+cd ~/project-a
+/spec-team
+# Team Name: spec-team (running)
+
+# Project B
+cd ~/project-b
+/spec-team
+# Team Name: spec-team (kills Project A's team!)
+```
+
+When the second team started, it would clean up the first team's resources before creating its own, terminating any running agents from Project A.
+
+#### The Fix
+
+The solution is simple: make team names unique per project. The updated script now generates team names using this pattern:
+
+```bash
+PROJECT_DIR=$(basename "$(pwd)")
+TEAM_NAME="spec-${PROJECT_DIR}-${SPEC_NAME}"
+```
+
+Now each project gets its own namespace:
+
+```bash
+# Project A
+Team Name: spec-projectA-user-auth
+~/.claude/teams/spec-projectA-user-auth/
+
+# Project B
+Team Name: spec-projectB-dashboard-ui
+~/.claude/teams/spec-projectB-dashboard-ui/
+```
+
+You can now run `/spec-team` on multiple projects simultaneously without conflicts. Each team maintains its own state and runs independently.
+
+This fix is available in version 2.0.1 and later. Update your plugin to get this functionality.
+
 ## When to Use This
 
 Spec-driven development adds overhead. It's not for every task. Use it when:
